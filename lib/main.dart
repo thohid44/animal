@@ -1,3 +1,4 @@
+import 'package:animal/hi_anik_rifat.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AddARecord()
+      home: HiAnik()
     );
   }
 }
@@ -111,7 +112,7 @@ class _AddARecordState extends State<AddARecord> {
              //   controller: _textEditingController,
                 maxLength: 150,
                 decoration: InputDecoration(
-                  
+                  label: Text("Notes"),
                   labelText: 'Enter Text',
                   border: OutlineInputBorder(),
                   hintText: 'Notes',
@@ -164,7 +165,7 @@ class _AddARecordState extends State<AddARecord> {
               child: Text('Save'  , style: TextStyle(
                 color: Colors.white,
                 fontSize: 18, 
-                
+
 
               ),),
             ),
