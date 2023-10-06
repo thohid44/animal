@@ -1,4 +1,7 @@
 import 'package:animal/hi_anik_rifat.dart';
+import 'package:animal/onBoarding.dart';
+import 'package:animal/on_boarding.dart';
+import 'package:animal/record_details_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,13 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
       
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HiAnik()
+      home: PageViewDemo()
     );
   }
 }
