@@ -1,3 +1,4 @@
+import 'package:animal/constant.dart';
 import 'package:flutter/material.dart';
 
 class RecordsDetailsPage extends StatefulWidget {
@@ -35,25 +36,26 @@ class _RecordsDetailsPageState extends State<RecordsDetailsPage> {
           children: [
          
             Container(
+              padding: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 color: Colors.white
               ),
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    margin: EdgeInsets.all(8),
-                    height: 40,
-                    width: 40,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffE6E6FA),
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
+                 Container(
+              margin: EdgeInsets.only(left: 20),
+                 height: 40, 
+               width: 40, 
+              decoration: BoxDecoration(
+                color: lavenderColor,
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: IconButton(onPressed: (){
+                Navigator.pop(context); 
+              }, icon: Icon(Icons.arrow_back_ios_new, size: 20,)),
+            ),
                   Container(
                     decoration: const BoxDecoration(
                    
@@ -68,12 +70,18 @@ class _RecordsDetailsPageState extends State<RecordsDetailsPage> {
                     decoration: const BoxDecoration(),
                     child: Text(
                       "Edit",
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.blue, 
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
               ),
             ),
+            Container(
+              height: 20,
+              color: Colors.white,
+            ), 
             const SizedBox(
               height: 70,
             ),
