@@ -1,20 +1,23 @@
+import 'dart:async';
+
 import 'package:animal/Controller/pageViewController.dart';
 import 'package:animal/constant.dart';
-import 'package:animal/main.dart';
+import 'package:animal/model/pet_breed_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+
 class BreedSearch extends StatefulWidget {
-  String id;
-  BreedSearch(this.id);
+  String peTypeId; 
+  BreedSearch(this.peTypeId);
   @override
   _BreedSearchState createState() => _BreedSearchState();
 }
 
 class _BreedSearchState extends State<BreedSearch> {
-  var controller = Get.put(PetController());
 
-  List<Map<String, dynamic>> dogData = [
+   List<Map<String, dynamic>> items = [
     {
       "id": 9,
       "name": "French Bulldogs",
@@ -36,79 +39,102 @@ class _BreedSearchState extends State<BreedSearch> {
       "translations": [],
     },
   ];
-  var petBreedId = '';
-  List<Map<String, dynamic>> filteredDogData = [];
 
+  TextEditingController searchController = TextEditingController();
+//  List<Map<String, dynamic>> filteredItems = [];
+  List<PetBreedModel> filteredItems= [];
+  var petBreedId='';
+var controller = Get.put(PetController());
   @override
   void initState() {
-    filteredDogData = List.from(dogData);
     super.initState();
+    //filteredItems = List.from(items);
+    filteredItems = List.from(controller.petBreedList);
+    Timer(Duration(seconds: 2), () { 
+      controller.getPetBreed();
+    });
   }
 
-  void filterDogs(String query) {
+  void filterItems(String query) {
     setState(() {
-      filteredDogData = dogData
-          .where(
-              (dog) => dog['name'].toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      if (query.isEmpty) {
+      //  filteredItems = List.from(items);
+       filteredItems = List.from(controller.petBreedList);
+      } else {
+        // filteredItems = items
+        //     .where((item) =>
+        //         item['name'].toLowerCase().contains(query.toLowerCase()))
+        //     .toList();
+    filteredItems = controller.petBreedList.where((e) => e.name!.toLowerCase().contains(query.toLowerCase())).toList();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("breed Id ${widget.peTypeId}");
+    controller.getPetBreed();
+    controller.petIdForBreeds.value = widget.peTypeId;
+   print("kollll ${controller.petBreedList.length}");
     return SafeArea(
       child: Scaffold(
+       
         body: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(top: 15),
-              decoration: BoxDecoration(color: lavenderColor),
+              decoration: BoxDecoration(
+                color: lavenderColor
+              ),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.back(); 
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          alignment: Alignment.center,
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Text("X",
+                         Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.back(); 
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20),
+                              alignment: Alignment.center,
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Text("X",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          Container(
+                            child: const Text(
+                              "Select Breed",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              )),
-                        ),
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Container(
-                        child: const Text(
-                          "Select Breed",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
                   Container(
-                    height: 45,
                     alignment: Alignment.center,
+                    height: 45,
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    color: lavenderColor,
                     child: TextField(
-                      onChanged: (value) {
-                        filterDogs(value);
+                      controller: searchController,
+                      onChanged: (query) {
+                        filterItems(query);
                       },
-                      decoration: InputDecoration(
+                     
+   decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search,
                             color: Colors.grey), // Prefix search icon
                         hintText: 'Search breed', // Hint text
@@ -119,31 +145,32 @@ class _BreedSearchState extends State<BreedSearch> {
                               BorderRadius.circular(10.0), // Border radius
                         ),
                       ),
+
                     ),
                   ),
                 ],
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredDogData.length,
+              child: Obx(() => controller.isLoading2.value==false? ListView.builder(
+                itemCount:controller.petBreedList.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(filteredDogData[index]['name']),
-                      onTap: () {
-                        // Handle selecting a dog
-                        petBreedId = filteredDogData[index]['id'].toString();
+                  return ListTile(
+                    title: Text(controller.petBreedList[index].name.toString()),
+                    onTap: () {
+                      // Handle item selection here, e.g., update the search field.
+
+                      searchController.text = filteredItems[index].name.toString();
+                          petBreedId = filteredItems[index].id.toString();
                         controller.petBreedId.value = petBreedId;
 
                         print("pet Breed Id $petBreedId");
                         print(
-                            "Selected Dog: ${filteredDogData[index]['name']}");
-                      },
-                    ),
+                            "Selected Dog: ${filteredItems[index].name}");
+                    },
                   );
                 },
-              ),
+              ):Center(child: CircularProgressIndicator())),
             ),
           ],
         ),
