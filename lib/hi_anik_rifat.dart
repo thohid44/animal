@@ -1,5 +1,6 @@
 import 'package:animal/Controller/pageViewController.dart';
 import 'package:animal/Controller/reminder_controller.dart';
+import 'package:animal/add_record_page.dart';
 import 'package:animal/constant.dart';
 import 'package:animal/main.dart';
 import 'package:animal/record_details_page.dart';
@@ -20,10 +21,23 @@ class _HiAnikState extends State<HiAnik> {
   @override
   Widget build(BuildContext context) {
     controller.getPetReminderTypeList();
+    controller.getPetList();
     print(controller.reminderTypeList.length);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.black,
+              size: 20,
+            ),
+          ),
+          backgroundColor: Colors.transparent,
           title: Text(
             "Hi Anik Rifet!",
             style: TextStyle(
@@ -37,8 +51,8 @@ class _HiAnikState extends State<HiAnik> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              const SizedBox(
-                height: 25,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1 / 3,
               ),
               Container(
                 height: 135,
@@ -56,10 +70,22 @@ class _HiAnikState extends State<HiAnik> {
                             child: Row(
                               children: [
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 100,
                                   height: 100,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
+                                  ),
+                                  child: Image.network(
+                                    'https://petshop.octazeal.com/${controller.petList[index].image}',
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Text("No Image",
+                                       style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),);
+                                    },
                                   ),
                                 ),
                                 SizedBox(
@@ -151,7 +177,7 @@ class _HiAnikState extends State<HiAnik> {
                                         height: 30,
                                         child: ElevatedButton.icon(
                                           onPressed: () {
-                                            print('Button pressed');
+                                            Get.to(AddRecordPage());
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.deepOrange,
@@ -185,9 +211,7 @@ class _HiAnikState extends State<HiAnik> {
                         child: CircularProgressIndicator(),
                       )),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 10),
               InkWell(
                 onTap: () {
                   Get.to(PageViewExample());
@@ -211,7 +235,7 @@ class _HiAnikState extends State<HiAnik> {
                 ),
               ),
               const SizedBox(
-                height: 35,
+                height: 15,
               ),
               Container(
                 alignment: Alignment.centerLeft,
@@ -225,10 +249,10 @@ class _HiAnikState extends State<HiAnik> {
                 ),
               ),
               const SizedBox(
-                height: 35,
+                height: 10,
               ),
               Container(
-                  height: 350,
+                  height: 320,
                   child: Obx(() => controller.isLoading.value == false
                       ? ListView.builder(
                           itemCount: reminderCon.reminderList.length,
@@ -256,9 +280,9 @@ class _HiAnikState extends State<HiAnik> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              child: const Text(
-                                                'Flea & tick treatment',
-                                                style: TextStyle(
+                                              child: Text(
+                                                '${reminderCon.reminderList[index].name}',
+                                                style: const TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 17,

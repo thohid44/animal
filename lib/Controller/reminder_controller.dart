@@ -40,15 +40,11 @@ class ReminderController extends GetxController {
 // "time":time
 // };
 
-  addPet({
-    imgPath,
-    petName,
-    petTypeId,
-    gender,
-    birthDate,
+  addReminder({
+    petId,typeId,notes,documents,adminsDate, exprDate,time,date
   }) async {
     print("Breed Id from page ${petBreedId}");
-    print("Image path $imgPath");
+   
     Get.snackbar("Add Pet", "Successfully Done",
         colorText: Colors.black,
         snackPosition: SnackPosition.BOTTOM,
@@ -60,24 +56,21 @@ class ReminderController extends GetxController {
         'POST',
         Uri.parse(""),
       );
-//               "name":name,
-// "pet_type":petType,id
-// "pet_breed":petBreed,id
-// "birth_date":birthDate,dd-mm-yyyy
-// "thumbnail":,
 
       request.headers['authorization'] = 'Bearer ' + token;
       request.headers['Content-Type'] = "application/json";
       request.headers['Accept'] = "application/json";
 
       var multipartFile =
-          await http.MultipartFile.fromPath('thumbnail', imgPath.toString());
+          await http.MultipartFile.fromPath('thumbnail', '');
       request.fields.addAll({
-        "name": petName,
-        "pet_type": petTypeId,
-        "gender": gender,
-        "pet_breed": petBreedId.value.toString(),
-        "birth_date": birthDate,
+"pet_id":petId,
+"type_id":typeId,
+"notes":notes,
+"documents":documents,
+"date":exprDate,
+
+"time":time
       });
 
       request.files.add(multipartFile);

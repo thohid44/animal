@@ -1,6 +1,5 @@
-
-
 import 'package:animal/constant.dart';
+import 'package:animal/hi_anik_rifat.dart';
 import 'package:animal/model/pet_breed_model.dart';
 import 'package:animal/model/pet_list_model.dart';
 import 'package:animal/model/pet_reminder_list.dart';
@@ -18,9 +17,9 @@ class PetController extends GetxController {
   var isLoading = false.obs;
   var isLoading2 = false.obs;
   var isProfileChangeLoading = false.obs;
+
   var url = "https://petshop.octazeal.com/api/v1/";
-  var addUrl =
-      "https://petshop.octazeal.com/api/v1/customer/pet_management/add";
+  var addUrl = "https://petshop.octazeal.com/api/v1/customer/pet_management/add";
   final _box = GetStorage();
   void onInit() {
     super.onInit();
@@ -30,18 +29,39 @@ class PetController extends GetxController {
     getPetReminderTypeList();
   }
 
-  var token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBhNjAzNTZkMTVlNDdlMmNlN2NlODIwZWFiYWJmZDA5NWIzYjM5ZDQwY2NmMjJhN2FiZjFiYTExMjliNTEzZTM3NjJjMjlmYmVlNzBiZjkiLCJpYXQiOjE2OTcxODk3NTMuMjkxODEsIm5iZiI6MTY5NzE4OTc1My4yOTE4MTEsImV4cCI6MTcyODgxMjE1My4yODg5MjEsInN1YiI6IjciLCJzY29wZXMiOltdfQ.iB7mOfoh9uFTDwoWRsEnjgToFftA7RBJmmN3AkrgBY8SRgz0Gzk1i5OKd3WEG37KJ7RGjvxUVOkoOc6wRugU7Z_lWiYsiBiEwwS3bGyQbng_8ZaruC0llBo-kfhIjvJOS-CIrpF7RtLQerLXECuYPt8Yl2lfiKExCpvLNhc7Dar65r1FFv8xajKLH0Loh73KWruahO69X3kCYpoue92Q7L5cH2HgfUGl-DyAH2uHFyF6PUqjXrrxVLCE0DTx3909hmLjNqZR70Vb47u2v5Ig1nZaPxPIEOdQhjG7_5fZe_2R6PEb6NQf-msk35_MCrGnKA0vrGQUGKtHxXKHaIUNRZ5TI1JYy5VtzCNYPsxwUQn1bh8TLJyBGLlAyGpXIrPD1rguKxP3KKxtn2RFlIFkimchrC0AnDllOUc8Li98RvzlBd054lxdgbecOndQnbwizB3OawvREI8QEUYXfF1m_UlelOSO6zCmIdx9aMQX8fgVpdDOtVpdBP71DNj2aI5GLIX0PX-lvWAnrU3KCMAzkCHMenLeRi7xSoaAzbJPQEXNmPFfnTcHFEl8ZKGKiZZWz0pnAgN9N2JEsnN8NV8H2ds871F7BF8USAGaiiLRYivvmXrh_ozEKJH_LKh_va4T1wVH0iAAY7FjXVFsoyuK9dvYRgX0rIVe0YmIXvSJSjI";
+  var token =   "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBhNjAzNTZkMTVlNDdlMmNlN2NlODIwZWFiYWJmZDA5NWIzYjM5ZDQwY2NmMjJhN2FiZjFiYTExMjliNTEzZTM3NjJjMjlmYmVlNzBiZjkiLCJpYXQiOjE2OTcxODk3NTMuMjkxODEsIm5iZiI6MTY5NzE4OTc1My4yOTE4MTEsImV4cCI6MTcyODgxMjE1My4yODg5MjEsInN1YiI6IjciLCJzY29wZXMiOltdfQ.iB7mOfoh9uFTDwoWRsEnjgToFftA7RBJmmN3AkrgBY8SRgz0Gzk1i5OKd3WEG37KJ7RGjvxUVOkoOc6wRugU7Z_lWiYsiBiEwwS3bGyQbng_8ZaruC0llBo-kfhIjvJOS-CIrpF7RtLQerLXECuYPt8Yl2lfiKExCpvLNhc7Dar65r1FFv8xajKLH0Loh73KWruahO69X3kCYpoue92Q7L5cH2HgfUGl-DyAH2uHFyF6PUqjXrrxVLCE0DTx3909hmLjNqZR70Vb47u2v5Ig1nZaPxPIEOdQhjG7_5fZe_2R6PEb6NQf-msk35_MCrGnKA0vrGQUGKtHxXKHaIUNRZ5TI1JYy5VtzCNYPsxwUQn1bh8TLJyBGLlAyGpXIrPD1rguKxP3KKxtn2RFlIFkimchrC0AnDllOUc8Li98RvzlBd054lxdgbecOndQnbwizB3OawvREI8QEUYXfF1m_UlelOSO6zCmIdx9aMQX8fgVpdDOtVpdBP71DNj2aI5GLIX0PX-lvWAnrU3KCMAzkCHMenLeRi7xSoaAzbJPQEXNmPFfnTcHFEl8ZKGKiZZWz0pnAgN9N2JEsnN8NV8H2ds871F7BF8USAGaiiLRYivvmXrh_ozEKJH_LKh_va4T1wVH0iAAY7FjXVFsoyuK9dvYRgX0rIVe0YmIXvSJSjI";
   var petBreedId = ''.obs;
-
-// var addRecord= {
-// "pet_id":petId,
-// "type_id":typeId,
-// "notes":notes,
-// "documents":documents,
-// "date":date,
-// "time":time
-// };
+  var isRegLoading = false.obs;
+  registration() async {
+    var mapData = {
+      "name": "Dog 12",
+      "pet_type": "8",
+      "pet_breed": "7",
+      "birth_date": "10-10-2023",
+      "image": "",
+      "gender": "male"
+    };
+   
+    try {
+      isRegLoading(true);
+      var response = await http.post(
+        Uri.parse(addUrl),
+        body: mapData,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        },
+      );
+      if (response.statusCode == 200) {
+        var jsonData = jsonDecode(response.body);
+         print("click reg");
+      }
+      isRegLoading(false);
+    } catch (e) {
+      isRegLoading(false);
+      print("Error $e");
+    }
+  }
 
   addPet({
     imgPath,
@@ -52,32 +72,23 @@ class PetController extends GetxController {
   }) async {
     print("Breed Id from page ${petBreedId}");
     print("Image path $imgPath");
-    Get.snackbar("Add Pet", "Successfully Done",
-        colorText: Colors.black,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: lavenderColor);
+
     try {
       isLoading(true);
 
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse(""),
+        Uri.parse("$addUrl"),
       );
-//               "name":name,
-// "pet_type":petType,id
-// "pet_breed":petBreed,id
-// "birth_date":birthDate,dd-mm-yyyy
-// "thumbnail":,
 
       request.headers['authorization'] = 'Bearer ' + token;
       request.headers['Content-Type'] = "application/json";
       request.headers['Accept'] = "application/json";
-
-      var multipartFile =
-          await http.MultipartFile.fromPath('thumbnail', imgPath.toString());
+      print(imgPath);
+      var multipartFile = await http.MultipartFile.fromPath('image', imgPath);
       request.fields.addAll({
         "name": petName,
-        "pet_type": petTypeId,
+        "pet_type": petTypeId.toString(),
         "gender": gender,
         "pet_breed": petBreedId.value.toString(),
         "birth_date": birthDate,
@@ -88,9 +99,13 @@ class PetController extends GetxController {
       final res = await http.Response.fromStream(response);
 
       var jsonData = jsonDecode(res.body);
-      print(jsonData);
+      print("response code ${response.statusCode}");
       if (response.statusCode == 200) {
-        print("Output is $jsonData");
+        Get.to(HiAnik());
+        Get.snackbar("Add Pet", "Successfully Done",
+            colorText: Colors.black,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: lavenderColor);
       } else if (response.statusCode == 404) {
         print("error image uplaod ${response.statusCode} ");
       }
@@ -120,7 +135,7 @@ class PetController extends GetxController {
       if (response.statusCode == 200) {
         for (Map<String, dynamic> index in jsonData) {
           petTypeList.add(PetTypeModel.fromJson(index));
-          print(petTypeList.length);
+       
         }
 
         isLoading(false);
@@ -150,8 +165,7 @@ class PetController extends GetxController {
         for (Map<String, dynamic> index in jsonData) {
           petBreedList.add(PetBreedModel.fromJson(index));
         }
-        print("Pet Breed List ${petBreedList.length}");
-
+     
         isLoading2(false);
       }
     } catch (e) {
@@ -177,7 +191,7 @@ class PetController extends GetxController {
       if (response.statusCode == 200) {
         for (Map<String, dynamic> index in jsonData) {
           petList.add(PetListModel.fromJson(index));
-          print(petList.length);
+        
         }
 
         isLoading(false);
@@ -187,12 +201,13 @@ class PetController extends GetxController {
       print("Error $e");
     }
   }
-  List<PetReminderTypesModel> reminderTypeList = <PetReminderTypesModel>[].obs; 
+
+  List<PetReminderTypesModel> reminderTypeList = <PetReminderTypesModel>[].obs;
 
   getPetReminderTypeList() async {
     try {
       isLoading(true);
-   
+
       var response = await http.get(
         Uri.parse("${url}customer/reminder/types"),
         headers: {
@@ -205,7 +220,7 @@ class PetController extends GetxController {
       if (response.statusCode == 200) {
         for (Map<String, dynamic> index in jsonData) {
           reminderTypeList.add(PetReminderTypesModel.fromJson(index));
-          print(reminderTypeList.length);
+      
         }
 
         isLoading(false);

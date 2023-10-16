@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:animal/Controller/pageViewController.dart';
+import 'package:animal/add_record_page.dart';
 import 'package:animal/constant.dart';
 import 'package:animal/hi_anik_rifat.dart';
 import 'package:animal/onBoarding.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -61,7 +63,7 @@ class _PageViewExampleState extends State<PageViewExample> {
 
   int showComment = 0;
   String? gender;
-  uploadImage() async {
+  Future uploadImage() async {
     final XFile tempImage =
         (await _picker.pickImage(source: ImageSource.camera))!;
 
@@ -75,11 +77,45 @@ class _PageViewExampleState extends State<PageViewExample> {
 
   var controller = Get.put(PetController());
 
-
   @override
   Widget build(BuildContext context) {
     // controller.getPetType();
-   controller.getPetBreed();
+    controller.getPetBreed();
+    var addUrl =
+        "https://petshop.octazeal.com/api/v1/customer/pet_management/add";
+
+    Future upProfile() async {
+      var token =
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNTBhNjAzNTZkMTVlNDdlMmNlN2NlODIwZWFiYWJmZDA5NWIzYjM5ZDQwY2NmMjJhN2FiZjFiYTExMjliNTEzZTM3NjJjMjlmYmVlNzBiZjkiLCJpYXQiOjE2OTcxODk3NTMuMjkxODEsIm5iZiI6MTY5NzE4OTc1My4yOTE4MTEsImV4cCI6MTcyODgxMjE1My4yODg5MjEsInN1YiI6IjciLCJzY29wZXMiOltdfQ.iB7mOfoh9uFTDwoWRsEnjgToFftA7RBJmmN3AkrgBY8SRgz0Gzk1i5OKd3WEG37KJ7RGjvxUVOkoOc6wRugU7Z_lWiYsiBiEwwS3bGyQbng_8ZaruC0llBo-kfhIjvJOS-CIrpF7RtLQerLXECuYPt8Yl2lfiKExCpvLNhc7Dar65r1FFv8xajKLH0Loh73KWruahO69X3kCYpoue92Q7L5cH2HgfUGl-DyAH2uHFyF6PUqjXrrxVLCE0DTx3909hmLjNqZR70Vb47u2v5Ig1nZaPxPIEOdQhjG7_5fZe_2R6PEb6NQf-msk35_MCrGnKA0vrGQUGKtHxXKHaIUNRZ5TI1JYy5VtzCNYPsxwUQn1bh8TLJyBGLlAyGpXIrPD1rguKxP3KKxtn2RFlIFkimchrC0AnDllOUc8Li98RvzlBd054lxdgbecOndQnbwizB3OawvREI8QEUYXfF1m_UlelOSO6zCmIdx9aMQX8fgVpdDOtVpdBP71DNj2aI5GLIX0PX-lvWAnrU3KCMAzkCHMenLeRi7xSoaAzbJPQEXNmPFfnTcHFEl8ZKGKiZZWz0pnAgN9N2JEsnN8NV8H2ds871F7BF8USAGaiiLRYivvmXrh_ozEKJH_LKh_va4T1wVH0iAAY7FjXVFsoyuK9dvYRgX0rIVe0YmIXvSJSjI";
+
+      var url = Uri.parse(addUrl);
+
+      //multipart post
+      http.MultipartRequest request = http.MultipartRequest('POST', url);
+
+      request.fields['name'] = "Dog 14";
+      request.fields['pet_type'] = "8";
+      request.fields['pet_breed'] = "7";
+      request.fields['birth_date'] = "2023-10-16";
+      request.fields['gender'] = "male";
+
+      request.headers.addAll(
+        {'Authorization': 'Bearer $token', 'Accept': 'application/json'},
+      );
+
+      http.MultipartFile multipartFile =
+          await http.MultipartFile.fromPath("image", file!.path);
+
+      request.files.add(multipartFile);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        print(" koli ${response.request}");
+        Get.snackbar("Image", "Dog Successfully Upload");
+        Get.to(HiAnik());
+      }
+
+      return response.statusCode;
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -219,7 +255,7 @@ class _PageViewExampleState extends State<PageViewExample> {
                         ),
 
                         SizedBox(
-                          height: 50,
+                          height: 40,
                         ),
                         Container(
                           child: const Text(
@@ -231,59 +267,62 @@ class _PageViewExampleState extends State<PageViewExample> {
                           ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
 
-                       Obx(() => controller.isLoading.value== false? Container(
-                            height: 400,
-                            child: GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisExtent: 120,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 9 / 16),
-                                itemCount: controller.petTypeList.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
+                        Obx(() => controller.isLoading.value == false
+                            ? Container(
+                                height: 350,
+                                child: GridView.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisExtent: 120,
+                                            crossAxisSpacing: 10,
+                                            childAspectRatio: 9 / 16),
+                                    itemCount: controller.petTypeList.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                petTypeId = controller
+                                                    .petTypeList[index].id
+                                                    .toString();
 
-                                        //  controller.petBreedsId.value = controller.petTypeList[index].id.toString();
-                                        //  print("koli ${controller.petBreedsId.value } ");
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            petTypeId = controller.petTypeList[index].id.toString();
-                                         
-                                            return BreedSearch(petTypeId);
-                                          });
-                                    },
-                                    child: Container(
-                                        margin: EdgeInsets.all(8),
-                                        alignment: Alignment.center,
-                                        height: 110,
-                                        width: 130,
-                                        decoration:
-                                            BoxDecoration(color: lavenderColor),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                                height: 80,
-                                                width: 110,
-                                                child: Image.network(
-                                                    "${controller.petTypeList[index].icon}")),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              "${controller.petTypeList[index].name}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        )),
-                                  );
-                                })):Center(child: CircularProgressIndicator())),
+                                                return BreedSearch(petTypeId);
+                                              });
+                                        },
+                                        child: Container(
+                                            margin: EdgeInsets.all(8),
+                                            alignment: Alignment.center,
+                                            height: 110,
+                                            width: 130,
+                                            decoration: BoxDecoration(
+                                                color: lavenderColor),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                    height: 80,
+                                                    width: 110,
+                                                    child: Image.network(
+                                                        "${controller.petTypeList[index].icon}")),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  "${controller.petTypeList[index].name}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            )),
+                                      );
+                                    }))
+                            : Center(child: CircularProgressIndicator())),
                         // Container(
                         //   height: 100,
                         //   child: Row(
@@ -373,25 +412,19 @@ class _PageViewExampleState extends State<PageViewExample> {
                         SizedBox(
                           height: 80,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                uploadImage();
-                              },
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    color: lavenderColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: IconButton(
-                                    icon: FaIcon(FontAwesomeIcons.camera),
-                                    onPressed: () {}),
-                              ),
-                            )
-                          ],
+                        InkWell(
+                          onTap: () {
+                            uploadImage();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: lavenderColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: FaIcon(FontAwesomeIcons.camera),
+                          ),
                         )
                       ],
                     ),
@@ -428,13 +461,15 @@ class _PageViewExampleState extends State<PageViewExample> {
                       curve: Curves.ease,
                     );
                     if (currentPage == 3) {
-                      controller.addPet(
-                          imgPath: image,
-                          petName: dataFromPage1.toString(),
-                          gender: gender,
-                          petTypeId: petTypeId,
-                          birthDate: "13-10-2023");
+                      upProfile();
+                      // controller.addPet(
+                      //     imgPath: file!.path,
+                      //     petName: dataFromPage1.toString(),
+                      //     gender: gender,
+                      //     petTypeId: petTypeId,
+                      //     birthDate: "13-10-2023");
                     }
+                    //  controller.registration();
                   },
                   child: currentPage == 3 ? Text("Submit") : Text("Next"),
                 ),
