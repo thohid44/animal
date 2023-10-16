@@ -77,7 +77,7 @@ class _HiAnikState extends State<HiAnik> {
                                     color: Colors.white,
                                   ),
                                   child: Image.network(
-                                    'https://petshop.octazeal.com/${controller.petList[index].image}',
+                                    '${controller.petList[index].image}',
                                     errorBuilder: (context, error, stackTrace) {
                                       return Text("No Image",
                                        style: TextStyle(
