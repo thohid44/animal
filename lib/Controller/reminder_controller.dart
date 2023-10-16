@@ -1,5 +1,3 @@
-
-
 import 'package:animal/constant.dart';
 import 'package:animal/model/pet_breed_model.dart';
 import 'package:animal/model/pet_list_model.dart';
@@ -14,7 +12,7 @@ import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class PetController extends GetxController {
+class ReminderController extends GetxController {
   var isLoading = false.obs;
   var isLoading2 = false.obs;
   var isProfileChangeLoading = false.obs;
@@ -24,9 +22,8 @@ class PetController extends GetxController {
   final _box = GetStorage();
   void onInit() {
     super.onInit();
-    getPetType();
-    getPetBreed();
-    getPetList();
+
+    getPetReminderList();
     getPetReminderTypeList();
   }
 
@@ -103,96 +100,12 @@ class PetController extends GetxController {
     }
   }
 
-  List<PetTypeModel> petTypeList = <PetTypeModel>[].obs;
-
-  getPetType() async {
-    try {
-      isLoading(true);
-      petTypeList.clear();
-      var response = await http.get(
-        Uri.parse("${url}customer/pet_management/types"),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token,
-        },
-      );
-      var jsonData = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        for (Map<String, dynamic> index in jsonData) {
-          petTypeList.add(PetTypeModel.fromJson(index));
-          print(petTypeList.length);
-        }
-
-        isLoading(false);
-      }
-    } catch (e) {
-      isLoading(false);
-      print("Error $e");
-    }
-  }
-
-  var petIdForBreeds = ''.obs;
-  List<PetBreedModel> petBreedList = <PetBreedModel>[].obs;
-  getPetBreed() async {
-    print("pet bred $petIdForBreeds");
-    try {
-      isLoading2(true);
-      petBreedList.clear();
-      var response = await http.get(
-        Uri.parse("${url}customer/pet_management/breeds/$petIdForBreeds"),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token,
-        },
-      );
-      var jsonData = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        for (Map<String, dynamic> index in jsonData) {
-          petBreedList.add(PetBreedModel.fromJson(index));
-        }
-        print("Pet Breed List ${petBreedList.length}");
-
-        isLoading2(false);
-      }
-    } catch (e) {
-      isLoading2(false);
-      print("Error $e");
-    }
-  }
-
-  List<PetListModel> petList = <PetListModel>[].obs;
-
-  getPetList() async {
-    try {
-      isLoading(true);
-      petList.clear();
-      var response = await http.get(
-        Uri.parse("${url}customer/pet_management/"),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token,
-        },
-      );
-      var jsonData = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        for (Map<String, dynamic> index in jsonData) {
-          petList.add(PetListModel.fromJson(index));
-          print(petList.length);
-        }
-
-        isLoading(false);
-      }
-    } catch (e) {
-      isLoading(false);
-      print("Error $e");
-    }
-  }
-  List<PetReminderTypesModel> reminderTypeList = <PetReminderTypesModel>[].obs; 
+  List<PetReminderTypesModel> reminderTypeList = <PetReminderTypesModel>[].obs;
 
   getPetReminderTypeList() async {
     try {
       isLoading(true);
-   
+
       var response = await http.get(
         Uri.parse("${url}customer/reminder/types"),
         headers: {
@@ -206,6 +119,35 @@ class PetController extends GetxController {
         for (Map<String, dynamic> index in jsonData) {
           reminderTypeList.add(PetReminderTypesModel.fromJson(index));
           print(reminderTypeList.length);
+        }
+
+        isLoading(false);
+      }
+    } catch (e) {
+      isLoading(false);
+      print("Error $e");
+    }
+  }
+
+  List<ReminderList> reminderList = <ReminderList>[].obs;
+
+  getPetReminderList() async {
+    try {
+      isLoading(true);
+
+      var response = await http.get(
+        Uri.parse("${url}customer/reminder/"),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        },
+      );
+      var jsonData = jsonDecode(response.body);
+      print("Reminder $jsonData");
+      if (response.statusCode == 200) {
+        for (Map<String, dynamic> index in jsonData) {
+          reminderList.add(ReminderList.fromJson(index));
+          print(reminderList.length);
         }
 
         isLoading(false);

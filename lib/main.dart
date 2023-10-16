@@ -75,31 +75,12 @@ class _PageViewExampleState extends State<PageViewExample> {
 
   var controller = Get.put(PetController());
 
-  List<Map<String, dynamic>> petTypeList = [
-    {
-      "id": 7,
-      "name": "Dog",
-      "icon":
-          "https://petshop.octazeal.com/storage/app/public/pet_type/2023-09-24-65102cab6ea50.png",
-      "translations": []
-    },
-    {
-      "id": 8,
-      "name": "Cat",
-      "icon":
-          "https://petshop.octazeal.com/storage/app/public/pet_type/2023-09-24-65102cd164fee.png",
-      "translations": []
-    },
-    {
-      "id": 17,
-      "name": "Rabbits",
-      "icon":
-          "https://petshop.octazeal.com/storage/app/public/pet_type/2023-09-24-65102f8a4040c.png",
-      "translations": []
-    }
-  ];
+
   @override
   Widget build(BuildContext context) {
+    // controller.getPetType();
+   controller.getPetBreed();
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -253,7 +234,7 @@ class _PageViewExampleState extends State<PageViewExample> {
                           height: 30,
                         ),
 
-                        Container(
+                       Obx(() => controller.isLoading.value== false? Container(
                             height: 400,
                             child: GridView.builder(
                                 gridDelegate:
@@ -262,15 +243,18 @@ class _PageViewExampleState extends State<PageViewExample> {
                                         mainAxisExtent: 120,
                                         crossAxisSpacing: 10,
                                         childAspectRatio: 9 / 16),
-                                itemCount: petTypeList.length,
+                                itemCount: controller.petTypeList.length,
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
+
+                                        //  controller.petBreedsId.value = controller.petTypeList[index].id.toString();
+                                        //  print("koli ${controller.petBreedsId.value } ");
                                       showDialog(
                                           context: context,
                                           builder: (context) {
-                                            petTypeId = petTypeList[index]['id']
-                                                .toString();
+                                            petTypeId = controller.petTypeList[index].id.toString();
+                                         
                                             return BreedSearch(petTypeId);
                                           });
                                     },
@@ -287,19 +271,19 @@ class _PageViewExampleState extends State<PageViewExample> {
                                                 height: 80,
                                                 width: 110,
                                                 child: Image.network(
-                                                    "${petTypeList[index]['icon']}")),
+                                                    "${controller.petTypeList[index].icon}")),
                                             SizedBox(
                                               height: 5,
                                             ),
                                             Text(
-                                              "${petTypeList[index]['name']}",
+                                              "${controller.petTypeList[index].name}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
                                         )),
                                   );
-                                })),
+                                })):Center(child: CircularProgressIndicator())),
                         // Container(
                         //   height: 100,
                         //   child: Row(
@@ -443,16 +427,16 @@ class _PageViewExampleState extends State<PageViewExample> {
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease,
                     );
-                    if (currentPage < 4) {
+                    if (currentPage == 3) {
                       controller.addPet(
                           imgPath: image,
-                          petName: "Biden",
+                          petName: dataFromPage1.toString(),
                           gender: gender,
                           petTypeId: petTypeId,
                           birthDate: "13-10-2023");
                     }
                   },
-                  child: currentPage < 4 ? Text("Next") : Text("Submit"),
+                  child: currentPage == 3 ? Text("Submit") : Text("Next"),
                 ),
             ],
           ),

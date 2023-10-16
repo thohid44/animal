@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     "cmake.sourceDirectory": "D:/animal/linux"
+=======
+    "java.configuration.updateBuildConfiguration": "interactive"
+>>>>>>> db7f8d4231e591151bcb46bae43b377503b87154
 }

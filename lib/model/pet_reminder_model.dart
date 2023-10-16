@@ -4,22 +4,22 @@
 
 import 'dart:convert';
 
-List<PetReminderModel> petReminderModelFromJson(String str) => List<PetReminderModel>.from(json.decode(str).map((x) => PetReminderModel.fromJson(x)));
+List<PetReminderTypesModel> petReminderModelFromJson(String str) => List<PetReminderTypesModel>.from(json.decode(str).map((x) => PetReminderTypesModel.fromJson(x)));
 
-String petReminderModelToJson(List<PetReminderModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String petReminderModelToJson(List<PetReminderTypesModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PetReminderModel {
+class PetReminderTypesModel {
     int? id;
     String? name;
     String? icon;
 
-    PetReminderModel({
+    PetReminderTypesModel({
         this.id,
         this.name,
         this.icon,
     });
 
-    factory PetReminderModel.fromJson(Map<String, dynamic> json) => PetReminderModel(
+    factory PetReminderTypesModel.fromJson(Map<String, dynamic> json) => PetReminderTypesModel(
         id: json["id"],
         name: json["name"],
         icon: json["icon"],
