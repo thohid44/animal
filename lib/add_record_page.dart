@@ -196,35 +196,38 @@ class _AddRecordPageState extends State<AddRecordPage> {
                                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: 160,
-                      height: 40,
-                      child: TextField(
-                        onChanged: (value) {
-                          dateDairy = value;
-                          print(dateDairy);
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Date',
-                          hintText: dateDairy != null ? dateDairy : 'select date',
-                          suffixIcon: InkWell(
-                              onTap: () {
-                                dairyDatePicker(context);
-                              },
-                              child: Icon(Icons.calendar_today)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                  InkWell(
+                            onTap: () {
+                            dairyDatePicker(context);
+                            },
+                            child: Container(
+                              width: 160,
+                              height: 35,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.grey)),
+                              child: dateStatus == false
+                                  ? const Text(
+                                      "Select Date",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      "${pickDate.year}-${pickDate.month}-${pickDate.day}"),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Container(
                       width: 120,
                       height: 40,
                       child: TextField(
                         decoration: InputDecoration(
-                          labelText: 'Time',
-                          hintText: 'select Time',
+                     
+                          hintText: tripTime !=null ? '$tripTime' :'select Time',
                           suffixIcon: InkWell(
                               onTap: _showTimePicker,
                               child: Icon(Icons.lock_clock)),
@@ -278,35 +281,38 @@ class _AddRecordPageState extends State<AddRecordPage> {
                                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: 160,
-                      height: 40,
-                      child: TextField(
-                        onChanged: (value) {
-                          dateDairy = value;
-                          print(dateDairy);
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Date',
-                          hintText: dateDairy != null ? dateDairy : 'select date',
-                          suffixIcon: InkWell(
-                              onTap: () {
-                                dairyDatePicker(context);
-                              },
-                              child: Icon(Icons.calendar_today)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                     InkWell(
+                            onTap: () {
+                            dairyDatePicker(context);
+                            },
+                            child: Container(
+                              width: 160,
+                              height: 35,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.grey)),
+                              child: dateStatus == false
+                                  ? const Text(
+                                      "Select Date",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      "${pickDate.year}-${pickDate.month}-${pickDate.day}"),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Container(
                       width: 120,
                       height: 40,
                       child: TextField(
                         decoration: InputDecoration(
-                          labelText: 'Time',
-                          hintText: 'select Time',
+                         
+                          hintText: tripTime !=null ? '$tripTime' :'select Time',
                           suffixIcon: InkWell(
                               onTap: _showTimePicker,
                               child: Icon(Icons.lock_clock)),
@@ -426,35 +432,38 @@ class _AddRecordPageState extends State<AddRecordPage> {
                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: 160,
-                      height: 50,
-                      child: TextField(
-                        onChanged: (value) {
-                          dateDairy = value;
-                          print(dateDairy);
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Date',
-                          hintText: dateDairy != null ? dateDairy : 'select date',
-                          suffixIcon: InkWell(
-                              onTap: () {
-                                dairyDatePicker(context);
-                              },
-                              child: Icon(Icons.calendar_today)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                    InkWell(
+                            onTap: () {
+                            dairyDatePicker(context);
+                            },
+                            child: Container(
+                              width: 160,
+                              height: 35,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.grey)),
+                              child: dateStatus == false
+                                  ? const Text(
+                                      "Select Date",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      "${pickDate.year}-${pickDate.month}-${pickDate.day}"),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Container(
                       width: 120,
                       height: 40,
                       child: TextField(
                         decoration: InputDecoration(
-                          labelText: 'Time',
-                          hintText: 'select Time',
+                    
+                          hintText: tripTime !=null ? '$tripTime' :'select Time',
                           suffixIcon: InkWell(
                               onTap: _showTimePicker,
                               child: Icon(Icons.lock_clock)),
@@ -518,11 +527,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
       context: context,
       initialDate: pickDate,
       firstDate: DateTime(2021),
-      //  firstDate: DateTime.now(),
-      // firstDate: DateTime(2022, 9, 15),
-
-      // lastDate: DateTime(3000),
-
+     
       lastDate: DateTime(2030, 01, 01),
     );
 
@@ -530,11 +535,11 @@ class _AddRecordPageState extends State<AddRecordPage> {
       return;
     } else {
       setState(() {
-        //   dateStatus = true;
+           dateStatus = true;
         pickDate = userSelectedDate;
         print(pickDate);
         dateDairy = "${pickDate.year}-${pickDate.month}-${pickDate.day}";
-        print("Date $selectedDates");
+        print("Date $dateDairy");
       });
     }
   }
@@ -598,15 +603,17 @@ class _AddRecordPageState extends State<AddRecordPage> {
 
   var pickupTime;
   var tripTime;
+  bool pickTimeStatus = false; 
   void _showTimePicker() async {
     showTimePicker(context: context, initialTime: TimeOfDay.now())
         .then((value) {
       setState(() {
+        pickTimeStatus=true;
         print(value!.hour);
         pickupTime = value;
         tripTime = pickupTime!.format(context).toString();
 
-        print("Trip Time is $tripTime");
+        print("Time Time is $tripTime");
       });
     });
   }
