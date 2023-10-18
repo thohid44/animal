@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Colors.black,
       ),
-      home: PageViewExample(),
+      home: AddRecordPage(),
     );
   }
 }
